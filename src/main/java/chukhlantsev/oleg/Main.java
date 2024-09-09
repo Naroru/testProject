@@ -7,10 +7,13 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
+   private static final String INPUT = "Input.txt";
+   private static final String OUTPUT = "Output.txt";
+
     public static void main(String[] args) throws FileNotFoundException {
 
 
-        File input = new File("Input.txt");
+        File input = new File(INPUT);
 
         List<String> strings = new ArrayList<>();
 
@@ -21,9 +24,19 @@ public class Main {
             String currentString = scanner.nextLine();
             strings.add(currentString);
 
-            int newValue = counter.getOrDefault(currentString, 0) + 1;
+            int newValue = counter.getOrDefault(currentString, 1) + 1;
             counter.put(currentString, newValue);
         }
+
+        List<String> inputStrings = new ArrayList<>(strings);
+        for (int i = 0; i < inputStrings.size(); i++) {
+            String currentString = inputStrings.get(i);
+            inputStrings.set(i,currentString+" "+counter.get(currentString));
+        }
+        saveFile(inputStrings,INPUT);
+
+
+
         scanner.close();
 
         System.out.println("Enter number of sorting: 1 - by alphabet, 2 - by lenght, 3 - by word lenght");
@@ -41,7 +54,9 @@ public class Main {
             int wordNumber = scanner2.nextInt();
             sordByWordNumber(strings,wordNumber);
         }
-        saveFile(strings);
+
+        saveFile(strings,OUTPUT);
+
 
         scanner2.close();
 
@@ -68,11 +83,7 @@ public class Main {
                 String keyWords1 = s1Words[wordNumber - 1];
                 String keyWords2 = s1Words[wordNumber - 1];
 
-                if(keyWords1.length() > keyWords2.length())
-                    return 1;
-                else if (keyWords1.length() < keyWords2.length())
-                    return -1;
-                else return 0;
+                return keyWords1.compareTo(keyWords2);
 
             }
             catch (Exception e)
@@ -84,9 +95,10 @@ public class Main {
 
     }
 
-    private static void saveFile(List<String> strings)  {
+    private static void saveFile(List<String> strings, String filename)  {
 
-        try (FileWriter writer = new FileWriter("output.txt")) {
+
+        try (FileWriter writer = new FileWriter(filename)) {
             strings.forEach(string -> {
                 try {
                     writer.write(string +"\n");
@@ -98,8 +110,8 @@ public class Main {
             throw new RuntimeException("Ошибка при записи в файл");
         }
 
-
         }
-    }
+
+}
 
 
