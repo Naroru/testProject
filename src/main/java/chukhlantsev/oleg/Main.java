@@ -81,7 +81,7 @@ public class Main {
             try {
 
                 String keyWords1 = s1Words[wordNumber - 1];
-                String keyWords2 = s1Words[wordNumber - 1];
+                String keyWords2 = s2Words[wordNumber - 1];
 
                 return keyWords1.compareTo(keyWords2);
 
